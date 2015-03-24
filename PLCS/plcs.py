@@ -149,7 +149,7 @@ class Plcs():
             self.toolbar.addAction(action)
 
         if add_to_menu:
-            self.iface.addPluginToMenu(
+            self.iface.addPluginToRasterMenu(
                 self.menu,
                 action)
 
