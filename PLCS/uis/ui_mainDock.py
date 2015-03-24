@@ -34,6 +34,8 @@ class Ui_DockWidget(object):
 
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout.setContentsMargins(1, 1, 1, 1)
+        self.verticalLayout.setSpacing(2)
 
         self.horizontalLayout = QtGui.QHBoxLayout(self.dockWidgetContents)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -70,6 +72,9 @@ class Ui_DockWidget(object):
         self.auto_pushButton = QtGui.QPushButton(DockWidget)
         self.auto_pushButton.setObjectName(_fromUtf8("auto_pushButton"))
         self.auto_pushButton.setFixedWidth(60)
+        self.help_pushButton = QtGui.QPushButton(DockWidget)
+        self.help_pushButton.setObjectName(_fromUtf8("help_pushButton"))
+        self.help_pushButton.setFixedWidth(60)
         
         self.horizontalLayout.addWidget(self.mMapLayerComboBox)
         self.horizontalLayout.addWidget(self.nBarSpinBox)
@@ -79,6 +84,7 @@ class Ui_DockWidget(object):
         self.horizontalLayout_2.addWidget(self.save_pushButton)
         self.horizontalLayout_2.addWidget(self.load_pushButton)
         self.horizontalLayout_2.addWidget(self.auto_pushButton)
+        self.verticalLayout.addWidget(self.help_pushButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         
@@ -155,7 +161,7 @@ class Ui_DockWidget(object):
             horizontalLayoutGraphic.addWidget(graphicsView)
             horizontalLayoutGraphic.addWidget(bandCombobox)
             self.graphicHorizontalLayoutList.append(horizontalLayoutGraphic)
-            self.verticalLayout.insertLayout(2, horizontalLayoutGraphic)
+            self.verticalLayout.insertLayout(3, horizontalLayoutGraphic)
 
     def reinit(self, dataList):
         for scene in self.sceneList:
@@ -190,6 +196,7 @@ class Ui_DockWidget(object):
         self.save_pushButton.setText(_translate("DockWidget", "Save breaks", None))
         self.load_pushButton.setText(_translate("DockWidget", "Load breaks", None))
         self.auto_pushButton.setText(_translate("DockWidget", "Auto", None))
+        self.help_pushButton.setText(_translate("DockWidget", "Help", None))
 
 
 class customScene(QtGui.QGraphicsScene):

@@ -26,7 +26,7 @@ import Image
 
 from lxml import etree
 from numpy import histogram, uint8, random
-from os import listdir
+import os
 from functools import partial
 
 
@@ -58,7 +58,7 @@ class mainDockWidget(QtGui.QDockWidget):
             return
 
         f = []
-        for file in listdir(folder):
+        for file in os.listdir(folder):
             if (file.endswith('.tif')
                 or file.endswith('.tiff')
                 or file.endswith('.TIF')
@@ -331,6 +331,25 @@ class mainDockWidget(QtGui.QDockWidget):
         a.shape = i.im.size[1], i.im.size[0]
         return a
     
+    @QtCore.pyqtSlot()
+    def on_help_pushButton_released(self):
+        print 1
+        if os.name == 'nt':
+            # Windows
+            name = os.path.realpath(__file__)
+            name = name.rsplit('\\', 2)
+            url = name[0] + str("/doc/user/build/html/index.html")
+            url.replace("\\", "/")
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(url))
+        else:
+            # other (unix)
+            name = os.path.realpath(__file__)
+
+            name = name.rsplit('/', 2)
+            url = name[0] + str("/help/build/html/index.html")
+            print url
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl(url))
+
     @QtCore.pyqtSlot()
     def on_auto_pushButton_released(self):
         if not self.layerIsDefined():
