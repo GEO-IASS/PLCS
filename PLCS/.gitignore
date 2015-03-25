@@ -1,2 +1,7 @@
 *.py[wco]
 **/.py[wco]
+
+
+# text editors temporary files
+*.swp
+*~
