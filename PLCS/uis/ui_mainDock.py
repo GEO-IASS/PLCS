@@ -55,8 +55,8 @@ class Ui_DockWidget(object):
         self.bandNumberComboBox = QtGui.QComboBox(DockWidget)
         self.bandNumberComboBox.setObjectName(_fromUtf8("bandNumberComboBox"))
         self.bandNumberComboBox.addItem(str(1), 1)
-        self.mMapLayerComboBox = gui.QgsMapLayerComboBox(DockWidget)
 
+        self.mMapLayerComboBox = gui.QgsMapLayerComboBox(DockWidget)
         self.mMapLayerComboBox.setFilters(gui.QgsMapLayerProxyModel.RasterLayer)
         self.mMapLayerComboBox.setObjectName(_fromUtf8("mMapLayerComboBox"))
         self.mMapLayerComboBox.setFixedWidth(110)
@@ -119,7 +119,7 @@ class Ui_DockWidget(object):
             if self.bandNumberComboBox.count() == 1:
                 self.bandNumberComboBox.addItem(str(3), 3)
         else:
-            if self.bandNumberComboBox.count() == 1:
+            if self.bandNumberComboBox.count() == 2:
                 self.bandNumberComboBox.removeItem(1)
 
         

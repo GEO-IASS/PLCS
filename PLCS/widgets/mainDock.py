@@ -40,8 +40,8 @@ class mainDockWidget(QtGui.QDockWidget):
         self.dataprList = None
 
         self.ui.pushButton.released.connect(self.transform)
-        self.ui.mMapLayerComboBox.setLayer(None)
-        self.ui.mMapLayerComboBox.layerChanged.connect(self.layerChanged)
+        self.ui.mMapLayerComboBox.setCurrentIndex(-1)
+        self.ui.mMapLayerComboBox.currentIndexChanged.connect(self.layerChanged)
         self.ui.bandNumberComboBox.currentIndexChanged.connect(self.displayBandNumberChanged)
         
     @QtCore.pyqtSlot()
@@ -68,14 +68,19 @@ class mainDockWidget(QtGui.QDockWidget):
             self.transform(file, folder)
         
     def layerChanged(self):
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         if not self.layerIsDefined():
             return
+        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         layer = self.ui.mMapLayerComboBox.currentLayer()
+        passed = self.getData(layer)
+        if not passed:
+                QtGui.QMessageBox.critical(self, "Input - error",
+                                           u"Selected raster is not 8bits formated")
+                QtGui.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
+                return
         b = max([1, min([3, layer.bandCount()])])
 
         self.ui.resetBandNumber(b, layer.bandCount())
-        self.getData(layer)
         cI = self.ui.bandNumberComboBox.currentIndex()
         if cI == floor(b / 2.0):
             self.displayBandNumberChanged()
@@ -117,7 +122,11 @@ class mainDockWidget(QtGui.QDockWidget):
         self.dataprList = []
         for i in range(0, layer.bandCount()):
             band = ds1.GetRasterBand(i + 1)
-
+            dataType = band.DataType
+            if dataType != 1:
+                band = None
+                ds1 = None
+                return False
             # Read the data into numpy arrays
             data = BandReadAsArray(band)
             self.imageList.append(self.arrayToImage(data[0::10, 0::10]))
@@ -126,6 +135,8 @@ class mainDockWidget(QtGui.QDockWidget):
             self.dataprList.append(numpy.random.choice(data[data[:] > 0], 1000))
             band = None
             data = None
+        ds1 = None
+        return True
         
     def currentCBIndex(self, index):
         return self.ui.bandComboboxList[index].itemData(
@@ -333,7 +344,6 @@ class mainDockWidget(QtGui.QDockWidget):
     
     @QtCore.pyqtSlot()
     def on_help_pushButton_released(self):
-        print 1
         if os.name == 'nt':
             # Windows
             name = os.path.realpath(__file__)
@@ -347,7 +357,6 @@ class mainDockWidget(QtGui.QDockWidget):
 
             name = name.rsplit('/', 2)
             url = name[0] + str("/help/build/html/index.html")
-            print url
             QtGui.QDesktopServices.openUrl(QtCore.QUrl(url))
 
     @QtCore.pyqtSlot()
