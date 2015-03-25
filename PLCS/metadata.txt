@@ -10,7 +10,7 @@
 name=raster PLCS
 qgisMinimumVersion=2.6
 description=piecewise linear contrast stretch for imagery
-version=0.11
+version=0.12
 author=gillian milani
 email=gillian.milani@romandie.com
 
